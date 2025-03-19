@@ -1,19 +1,22 @@
 import 'package:yaml/yaml.dart';
-import 'package:flutter/services.dart';
+import 'dart:io';
+import 'package:ticker_chart/data/models/config_model.dart';
 
 class Config {
-  static late String upbitApiUrl;
-  static late String binanceApiUrl;
-  static late String coinbaseApiUrl;
-  static late String binanceWebSocketUrl;
+  static late ApiConfig api;
+  static late WebSocketConfig websocket;
 
   static Future<void> loadConfig() async {
-    final yamlString = await rootBundle.loadString('assets/config/config.yml');
+    final file = File('config.yml');
+    final yamlString = await file.readAsString();
     final yamlMap = loadYaml(yamlString);
 
-    upbitApiUrl = yamlMap['api']['upbit'];
-    binanceApiUrl = yamlMap['api']['binance'];
-    coinbaseApiUrl = yamlMap['api']['coinbase'];
-    binanceWebSocketUrl = yamlMap['websocket']['binance'];
+    api = ApiConfig(
+      upbit: yamlMap['api']['upbit'],
+      binance: yamlMap['api']['binance'],
+      coinbase: yamlMap['api']['coinbase'],
+    );
+
+    websocket = WebSocketConfig(binance: yamlMap['websocket']['binance']);
   }
 }

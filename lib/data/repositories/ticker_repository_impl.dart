@@ -1,3 +1,4 @@
+import 'package:ticker_chart/core/errors/codes.dart';
 import 'package:ticker_chart/data/models/ticker_model.dart';
 import 'package:ticker_chart/data/repositories/ticker_repository.dart';
 import 'package:ticker_chart/data/repositories/upbit_ticker_repository.dart';
@@ -14,7 +15,7 @@ class TickerRepositoryImpl implements TickerRepository {
 
   @override
   Future<TickerModel> fetchTicker() async {
-    throw UnimplementedError('Use fetchAllTickers() instead.');
+    throw UnimplementedError(ErrorCodes.unimplementedError);
   }
 
   Future<List<TickerModel>> fetchAllTickers() async {
@@ -25,7 +26,7 @@ class TickerRepositoryImpl implements TickerRepository {
 
       return [upbitTicker, binanceTicker, coinbaseTicker];
     } catch (e) {
-      throw ServerException('${ErrorCodes.serverError}: $e');
+      throw ServerException('${Codes.serverError}: $e');
     }
   }
 
